@@ -1,0 +1,40 @@
+name: Release App
+on:
+  push:
+    tags:
+      - '^v[0-9]+.[0-9]+.[0-9]+$'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo "GITHUB_CONTEXT: $GITHUB_CONTEXT"
+      - name: Set vars
+        run: |
+          echo "RELEASE_VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+          echo "RELEASE_HASH=$(git rev-parse --short "$GITHUB_SHA")" >> $GITHUB_ENV
+      - name: Print release info
+        run: |
+          echo "release tag/version: $RELEASE_VERSION"
+          echo "release commit id: $RELEASE_HASH"
+          echo "github.ref (the branch or tag that trigger the event): $GITHUB_REF"
+      - name: Checkout github-actions repo
+        uses: actions/checkout@v2-beta
+        with:
+          repository: rapid7/avidan-github-actions
+          path: github-actions
+          ref: refs/tags/create-branch-type-from-tag-v1
+      - name: run create-branch-type-from-tag
+        id: createBranchFromTagAction
+        uses: ./github-actions/create-branch-type-from-tag
+        with:
+          tagName: $RELEASE_VERSION
+          tagCommitHash: $RELEASE_HASH
+          gitUserName: "'alcide jenkins'"
+          gitUserEmail: "'alcidejenkins@rapid7.com'"
