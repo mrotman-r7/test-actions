@@ -1,22 +1,5 @@
 name: 'Create release branch from tag'
 description: 'create release branch from tag pushed by the user'
-inputs:
-  releaseVersion:
-    description: 'the release version'
-    required: true
-    default: ''
-  releaseHash:
-    description: 'the release commit id'
-    required: true
-    default: ''
-  gitUserName:
-    description: 'git user name'
-    required: true
-    default: ''
-  gitUserEmail:
-    description: 'git user email'
-    required: true
-    default: ''
 outputs:
   scriptOutput:
     description: "script output"
@@ -24,5 +7,9 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - run: ${{ github.action_path }}/branch.sh ${{ inputs.releaseVersion }} ${{ inputs.releaseHash }} ${{ inputs.gitUserName }} ${{ inputs.gitUserEmail }}
+    - run: ${{ github.action_path }}/create_branch_list.sh
+      shell: bash
+    - run: ${{github.action_path}}/get_latest_release.py
+      shell: python
+    - run: ${{ github.action_path }}/remove_branch_list.sh
       shell: bash

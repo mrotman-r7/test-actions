@@ -25,7 +25,11 @@ function configureNewBranch()
     echo "Creating pull request with reviewers:"
     gh pr create --title $branchReleaseName --body "automatically created because changes detected" --reviewer rapid7/mrotman-r7 --head $branchReleaseName --base main
     echo "Creating auto merge for pull request"
+<<<<<<< HEAD
     gh pr merge $branchReleaseName --auto -m
+=======
+    gh pr merge $branchReleaseName --auto
+>>>>>>> e1bfecd1febe7bf2b160dc243c346b242160a48b
     echo "finished creating pull request"
     echo "##########################"
 
