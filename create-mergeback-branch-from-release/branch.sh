@@ -3,9 +3,8 @@
 source $(dirname "$0")/common.sh
 
 VERSION_NAME=$1
-COMMIT_SHA=$2
-GIT_USER_NAME=$3
-GIT_USER_EMAIL=$4
+GIT_USER_NAME=$2
+GIT_USER_EMAIL=$3
 
 function configureNewBranch()
 {
@@ -25,11 +24,7 @@ function configureNewBranch()
     echo "Creating pull request with reviewers:"
     gh pr create --title $branchReleaseName --body "automatically created because changes detected" --reviewer rapid7/mrotman-r7 --head $branchReleaseName --base main
     echo "Creating auto merge for pull request"
-<<<<<<< HEAD
     gh pr merge $branchReleaseName --auto -m
-=======
-    gh pr merge $branchReleaseName --auto
->>>>>>> e1bfecd1febe7bf2b160dc243c346b242160a48b
     echo "finished creating pull request"
     echo "##########################"
 
@@ -43,13 +38,15 @@ function gitConfig()
 }
 
 echo "VERSION_NAME: $VERSION_NAME"
-echo "COMMIT_SHA: $COMMIT_SHA"
 echo "GIT_USER_NAME: $GIT_USER_NAME"
 echo "GIT_USER_EMAIL: $GIT_USER_EMAIL"
 
 gitConfig
-if [ -z "${COMMIT_SHA}" ]; then
+branchDiff= git diff $VERSION_NAME..main
+if [ -z "${VERSION_NAME}" ]; then
     echo "COMMIT_SHA is empty"
+else if [ ! -z "$branchDiff" ]; then
+  configureNewBranch ${VERSION_NAME}
 else
-    configureNewBranch ${COMMIT_SHA}
+    echo "Dev branch up to date."
 fi

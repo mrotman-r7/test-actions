@@ -37,7 +37,6 @@ jobs:
         uses: test-actions/create-mergeback-branch-from-release
         with:
           versionName: ${{steps.semver.outputs.latest_semver}}
-          tagCommitHash: $RELEASE_HASH
           gitUserName: "'alcide jenkins'"
           gitUserEmail: "'alcidejenkins@rapid7.com'"
       - name: Delete branch list
