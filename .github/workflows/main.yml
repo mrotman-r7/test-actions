@@ -15,6 +15,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Shallow clone divvy-dev
+        uses: actions/checkout@v2
       - name: Create list of branches
         run:  |
           cd divvy-dev
