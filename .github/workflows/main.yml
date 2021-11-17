@@ -1,36 +1,56 @@
 # This is a basic workflow to help you get started with Actions
-
-name: CI
-
+name: Daily dev update
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
+  # push:
+  #   branches: [ main ]
+  # pull_request:
+  #   branches: [ main ]
+  schedule:
+    - cron: '0 18 * * 4'
   # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
+#  workflow_dispatch:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  #build:
+  merge-branch:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    # Steps represent a sequence of tasks that will be executed as part of the
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+      - name: Shallow clone divvy-dev
+      - name: Create list of branches
+        run:  |
+          cd divvy-dev
+          echo "Copying filtered branches to file."
+          git branch -a | grep -E '/release/(([0-9])+\.)+([0-9])+$' > branches
+                 echo "File created successfully."
+      - name: Get latest version branch branch name
+          output=$(get_latest_release.py)
+          echo "::set-output name=latest_semver::$output"
+        id: semver
+      - name: Create new mergeback__version_date branch
+        #uses: actions/checkout@v2
+        uses: test-actions/create-mergeback-branch-from-release
+        with:
+          versionName: ${{steps.semver.outputs.latest_semver}}
+          tagCommitHash: $RELEASE_HASH
+          gitUserName: "'alcide jenkins'"
+          gitUserEmail: "'alcidejenkins@rapid7.com'"
+      - name: Delete branch list
+        run:  |
+          cd divvy-dev
+          echo "deleting branch list"
+          rm branches
+      # # Runs a single command using the runners shell
+      # - name: Run a one-line script
+      #   run: echo Hello, world!
+      #
+      # # Runs a set of commands using the runners shell
+      # - name: Run a multi-line script
+      #   run: |
+      #     echo Add other actions to build,
+      #     echo test, and deploy your project.

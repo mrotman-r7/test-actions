@@ -1,8 +1,8 @@
-name: 'Create release branch from tag'
-description: 'create release branch from tag pushed by the user'
+name: 'create mergeback branch from release branch'
+description: 'create dated mergeback branch from release branch'
 inputs:
-  tagName:
-    description: 'the tag name'
+  versionName:
+    description: 'the source branch'
     required: true
     default: ''
   tagCommitHash:
@@ -18,11 +18,11 @@ inputs:
     required: true
     default: ''
 outputs:
-  scriptOutput: 
+  scriptOutput:
     description: "script output"
     value: ''
 runs:
   using: "composite"
-  steps: 
-    - run: ${{ github.action_path }}/branch.sh ${{ inputs.tagName }} ${{ inputs.tagCommitHash }} ${{ inputs.gitUserName }} ${{ inputs.gitUserEmail }}
+  steps:
+    - run: ${{ github.action_path }}/branch.sh ${{ inputs.versionName }} ${{ inputs.tagCommitHash }} ${{ inputs.gitUserName }} ${{ inputs.gitUserEmail }}
       shell: bash

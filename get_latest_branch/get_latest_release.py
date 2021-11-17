@@ -1,5 +1,5 @@
 max_version = (0, 0, 0, 0)
-with open("branches") as list_of_branches:
+with open(".\mergeback\branches") as list_of_branches:
     for branch in list_of_branches:
         branch = branch.strip()
         words = branch.split('/')
