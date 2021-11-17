@@ -23,7 +23,7 @@ jobs:
           git branch -a | grep -E '/release/(([0-9])+\.)+([0-9])+$' > branches
                  echo "File created successfully."
       - name: Get latest version branch branch name
-          output=$(get_latest_release.py)
+          output=$(python get_latest_release.py)
           echo "::set-output name=latest_semver::$output"
         id: semver
       - name: Create new mergeback__version_date branch
