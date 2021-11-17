@@ -29,7 +29,7 @@ jobs:
         id: semver
       - name: Create new mergeback__version_date branch
         #uses: actions/checkout@v2
-        uses: test-actions/create-mergeback-branch-from-release
+        uses: test-actions/create-mergeback-branch-from-release@main
         with:
           versionName: ${{steps.semver.outputs.latest_semver}}
           gitUserName: "'alcide jenkins'"
