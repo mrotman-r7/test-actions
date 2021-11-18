@@ -42,8 +42,9 @@ echo "GIT_USER_NAME: $GIT_USER_NAME"
 echo "GIT_USER_EMAIL: $GIT_USER_EMAIL"
 
 gitConfig
+echo "Checking if development branch is up to date"
 branchDiff=`git diff $VERSION_NAME..main`
-echo "$branchDiff"
+echo "contents of $branchDiff"
 if [ -z "${VERSION_NAME}" ]; then
     echo "COMMIT_SHA is empty"
 elif [ ! -z "$branchDiff" ]; then
