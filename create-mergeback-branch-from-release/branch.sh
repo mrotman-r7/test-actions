@@ -43,6 +43,7 @@ echo "GIT_USER_EMAIL: $GIT_USER_EMAIL"
 
 gitConfig
 branchDiff=`git diff $VERSION_NAME..main`
+echo "$branchDiff"
 if [ -z "${VERSION_NAME}" ]; then
     echo "COMMIT_SHA is empty"
 elif [ ! -z "$branchDiff" ]; then
