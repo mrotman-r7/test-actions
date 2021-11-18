@@ -38,7 +38,8 @@ function gitConfig()
     echo "Configuring git creds"
     git config --global user.name $GIT_USER_NAME
     git config --global user.email $GIT_USER_EMAIL
-    gh auth login --with-token $GITHUB_TOKEN
+    echo "$GITHUB_TOKEN" > .githubtoken
+    gh auth login --with-token < .githubtoken
 }
 
 echo "VERSION_NAME: $VERSION_NAME"
