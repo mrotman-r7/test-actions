@@ -25,7 +25,7 @@ function configureNewBranch()
     echo "finish branching project, pushing to repo"
     git push -u origin $branchReleaseName || error "can't push branch: $branchReleaseName to remote"
     echo "Creating pull request with reviewers:"
-    gh pr create --title $branchReleaseName --body "automatically created because changes detected" --reviewer rapid7/mrotman-r7 --head $branchReleaseName --base main
+    gh pr create --title $branchReleaseName --body "automatically created because changes detected" --reviewer mrotman-r7 --head $branchReleaseName --base main
     echo "Creating auto merge for pull request"
     gh pr merge $branchReleaseName --auto -m
     echo "finished creating pull request"
