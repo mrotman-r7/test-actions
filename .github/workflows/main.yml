@@ -51,8 +51,11 @@ jobs:
           gitUserEmail: "'moran_rotman@rapid7.com'"
       - name: Delete branch list
         run:  |
+          cd get_latest_branch
+          ls -la
           echo "deleting branch list"
           rm branches
+          ls -la
       # # Runs a single command using the runners shell
       # - name: Run a one-line script
       #   run: echo Hello, world!
