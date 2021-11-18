@@ -49,6 +49,7 @@ jobs:
           versionName: ${{steps.semver.outputs.latest_semver}}
           gitUserName: "'Moran Rotman'"
           gitUserEmail: "'moran_rotman@rapid7.com'"
+          gitToken: ${{github.token}}
       - name: Delete branch list
         run:  |
           cd get_latest_branch

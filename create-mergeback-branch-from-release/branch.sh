@@ -5,6 +5,7 @@ source $(dirname "$0")/common.sh
 VERSION_NAME=$1
 GIT_USER_NAME=$2
 GIT_USER_EMAIL=$3
+GITHUB_TOKEN=$4
 
 function configureNewBranch()
 {
@@ -37,6 +38,7 @@ function gitConfig()
     echo "Configuring git creds"
     git config --global user.name $GIT_USER_NAME
     git config --global user.email $GIT_USER_EMAIL
+    gh auth login --with-token $GITHUB_TOKEN
 }
 
 echo "VERSION_NAME: $VERSION_NAME"
