@@ -28,6 +28,7 @@ jobs:
                  echo "File created successfully."
       - name: Get latest version branch branch name
         run: |
+          chmod 777 /get_latest_branch/get_latest_release.py
           output=$(./get_latest_branch/get_latest_release.py)
           echo "::set-output name=latest_semver::$output"
         id: semver
