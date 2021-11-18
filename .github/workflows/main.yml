@@ -41,6 +41,10 @@ jobs:
           chmod 777 common.sh
           ls -la
           cd ..
+          echo "Configuring git creds"
+          git config --global user.name "Moran Rotman"
+          git config --global user.email "moran_rotman@rapid7.com"
+          
         id: semver
       - name: Create new mergeback__version_date branch
         #uses: actions/checkout@v2
