@@ -20,12 +20,13 @@ jobs:
       - name: Create list of branches
         run:  |
           ls -la
+          git branch -a
           echo "Copying filtered branches to file."
           git branch -a | grep -E '/release/(([0-9])+\.)+([0-9])+$' > branches
                  echo "File created successfully."
       - name: Get latest version branch branch name
         run: |
-          output=$(python get_latest_release.py)
+          output=$(./get_latest_release/python get_latest_release.py)
           echo "::set-output name=latest_semver::$output"
         id: semver
       - name: Create new mergeback__version_date branch
