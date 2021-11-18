@@ -47,8 +47,8 @@ jobs:
         uses: mrotman-r7/test-actions/create-mergeback-branch-from-release@no_directory
         with:
           versionName: ${{steps.semver.outputs.latest_semver}}
-          gitUserName: "'alcide jenkins'"
-          gitUserEmail: "'alcidejenkins@rapid7.com'"
+          gitUserName: "'Moran Rotman'"
+          gitUserEmail: "'moran_rotman@rapid7.com'"
       - name: Delete branch list
         run:  |
           echo "deleting branch list"
