@@ -11,7 +11,7 @@ function configureNewBranch()
     local sourceBranch=$1
 
     echo "##########################"
-    echo "Branching from commit id: $commitId"
+    echo "Branching from source: $sourceBranch"
     echo "##########################"
     date_merge= date +%Y%m%d
     branchReleaseName="mergeback__release/${VERSION_NAME}-$date_merge"
