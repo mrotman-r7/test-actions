@@ -13,8 +13,9 @@ function configureNewBranch()
     echo "##########################"
     echo "Branching from source: $sourceBranch"
     echo "##########################"
-    date_merge= date +%Y%m%d
+    date_merge=(date +%Y%m%d)
     branchReleaseName="mergeback__release/$sourceBranch-$date_merge"
+    gh auth login
     git checkout $sourceBranch
     echo "Checkout branch: $sourceBranch"
     git branch $branchReleaseName || error "can't checkout branch: $branchReleaseName, source: $sourceBranch"
