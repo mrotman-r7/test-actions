@@ -37,6 +37,7 @@ jobs:
           cd create-mergeback-branch-from-release
           ls -la
           chmod 777 branch.sh
+          chmod 777 action.yml
           chmod 777 common.sh
           ls -la
           cd ..
