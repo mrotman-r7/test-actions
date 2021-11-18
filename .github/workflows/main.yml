@@ -45,6 +45,15 @@ jobs:
         id: semver
       - name: Create new mergeback__version_date branch
         #uses: actions/checkout@v2
+        run: |
+          cd create-mergeback-branch-from-release
+          ls -la
+          chmod 777 branch.sh
+          chmod 777 action.yml
+          chmod 777 common.sh
+          ls -la
+          cd ..
+          ls -la
         uses: mrotman-r7/test-actions/create-mergeback-branch-from-release@no_directory
         with:
           versionName: ${{steps.semver.outputs.latest_semver}}
