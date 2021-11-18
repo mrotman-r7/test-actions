@@ -31,7 +31,7 @@ jobs:
           cd get_latest_branch
           ls -la
           chmod 777 get_latest_release.py
-          output=$(./get_latest_release.py)
+          output=$(python ./get_latest_release.py)
           echo "::set-output name=latest_semver::$output"
         id: semver
       - name: Create new mergeback__version_date branch
