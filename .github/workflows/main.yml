@@ -34,7 +34,7 @@ jobs:
           echo "$output"
           echo "::set-output name=latest_semver::$output"
           cd ..
-          cd /create-mergeback-branch-from-release
+          cd create-mergeback-branch-from-release
           ls -la
           chmod 777 branch.sh
         id: semver
