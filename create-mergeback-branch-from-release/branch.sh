@@ -15,7 +15,8 @@ function configureNewBranch()
     echo "Branching from source: $sourceBranch"
     echo "##########################"
     date_merge=(date +%Y%m%d)
-    branchReleaseName="mergeback__release/$sourceBranch-$date_merge"
+    echo "date_merge"
+    branchReleaseName="mergeback__$sourceBranch-$date_merge"
     echo "gh auth status"
     gh auth status
     git checkout $sourceBranch
