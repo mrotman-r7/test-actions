@@ -1,5 +1,5 @@
 max_version = (0, 0, 0, 0)
-with open(".\mergeback\branches") as list_of_branches:
+with open("branches") as list_of_branches:
     for branch in list_of_branches:
         branch = branch.strip()
         words = branch.split('/')
@@ -8,7 +8,7 @@ with open(".\mergeback\branches") as list_of_branches:
         semantic = semantic.split('.')
         semantic = list(map(int, semantic))
         semantic_tuple = tuple(semantic)
-        print(semantic_tuple)
+        #print(semantic_tuple)
         if semantic_tuple > max_version:
             max_version = semantic_tuple
             branch_name = branch

@@ -17,29 +17,46 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Shallow clone divvy-dev
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Create list of branches
         run:  |
-          cd divvy-dev
+          ls -la
+          git branch -a
           echo "Copying filtered branches to file."
-          git branch -a | grep -E '/release/(([0-9])+\.)+([0-9])+$' > branches
+          git branch -a | grep -E '/release/(([0-9])+\.)+([0-9])+$' > get_latest_branch/branches
                  echo "File created successfully."
       - name: Get latest version branch branch name
         run: |
-          output=$(python get_latest_release.py)
+          cd get_latest_branch
+          chmod 777 get_latest_release.py
+          output=$(python ./get_latest_release.py)
+          echo "$output"
           echo "::set-output name=latest_semver::$output"
+          cd ..
+          cd create-mergeback-branch-from-release
+          ls -la
+          chmod 777 branch.sh
+          chmod 777 action.yml
+          chmod 777 common.sh
+          ls -la
+          cd ..
+          ls -la
         id: semver
       - name: Create new mergeback__version_date branch
-        #uses: actions/checkout@v2
-        uses: mrotman-r7/test-actions/create-mergeback-branch-from-release@main
+        uses: mrotman-r7/test-actions/create-mergeback-branch-from-release@no_directory
         with:
           versionName: ${{steps.semver.outputs.latest_semver}}
-          gitUserName: "'alcide jenkins'"
-          gitUserEmail: "'alcidejenkins@rapid7.com'"
+          gitUserName: "'Moran Rotman'"
+          gitUserEmail: "'moran_rotman@rapid7.com'"
+          gitToken: ${{github.token}}
       - name: Delete branch list
         run:  |
-          cd divvy-dev
+          cd get_latest_branch
+          ls -la
           echo "deleting branch list"
           rm branches
+          ls -la
       # # Runs a single command using the runners shell
       # - name: Run a one-line script
       #   run: echo Hello, world!
