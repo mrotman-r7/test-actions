@@ -10,13 +10,13 @@ GITHUB_TOKEN=$4
 function configureNewBranch()
 {
     local sourceBranch=$1
-
+    local shortBranchName=${sourceBranch#remotes/origin/}
     echo "##########################"
     echo "Branching from source: $sourceBranch"
     echo "##########################"
-    date_merge=(date +%Y%m%d)
-    echo "$date_merge"
-    branchReleaseName="mergeback__$sourceBranch-$date_merge"
+    date_merge=$(date +%Y%m%d)
+    echo $date_merge
+    branchReleaseName="mergeback__$shortBranchName-$date_merge"
     echo "gh auth status"
     gh auth status
     git checkout $sourceBranch
