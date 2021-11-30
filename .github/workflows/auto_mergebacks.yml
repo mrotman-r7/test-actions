@@ -19,23 +19,31 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+          path: main
+      - name: Shallow clone alcide-github-actions
+        uses: actions/checkout@v2
+        with:
+          repository: rapid7/alcide-github-actions
+          path: aux
+          fetch-depth: 0
       - name: Create list of branches
         run:  |
           ls -la
+          cd main
+          ls -la
           git branch -a
           echo "Copying filtered branches to file."
-          git branch -a | grep -E '/release/(([0-9])+\.)+([0-9])+$' > get_latest_branch/branches
+          git branch -a | grep -E '/release/(([0-9])+\.)+([0-9])+$' > /aux/alcide-github-actions/create-mergeback-from-release/branches
                  echo "File created successfully."
-      - name: Get latest version branch branch name
+      - name: Get latest version branch name
         run: |
-          cd get_latest_branch
+          ls -la
+          cd /aux/alcide-github-actions/create-mergeback-from-release/
+          ls -la
           chmod 777 get_latest_release.py
           output=$(python ./get_latest_release.py)
           echo "$output"
           echo "::set-output name=latest_semver::$output"
-          cd ..
-          cd create-mergeback-branch-from-release
-          ls -la
           chmod 777 branch.sh
           chmod 777 action.yml
           chmod 777 common.sh
@@ -44,7 +52,7 @@ jobs:
           ls -la
         id: semver
       - name: Create new mergeback__version_date branch
-        uses: mrotman-r7/test-actions/create-mergeback-branch-from-release@no_directory
+        uses: rapid7/alcide-github-actions/create-mergeback-branch-from-release@master
         with:
           versionName: ${{steps.semver.outputs.latest_semver}}
           gitUserName: "'Moran Rotman'"
@@ -52,7 +60,7 @@ jobs:
           gitToken: ${{github.token}}
       - name: Delete branch list
         run:  |
-          cd get_latest_branch
+          cd /aux/alcide-github-actions/create-mergeback-from-release/
           ls -la
           echo "deleting branch list"
           rm branches

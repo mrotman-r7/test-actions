@@ -7,13 +7,15 @@ GIT_USER_NAME=$2
 GIT_USER_EMAIL=$3
 GITHUB_TOKEN=$4
 
+cd /main
+
 function configureNewBranch()
 {
     local sourceBranch=$1
     local shortBranchName=${sourceBranch#remotes/origin/}
-    echo "##########################"
+    echo "#########################################"
     echo "Branching from source: $sourceBranch"
-    echo "##########################"
+    echo "#########################################"
     date_merge=$(date +%Y%m%d)
     echo $date_merge
     branchReleaseName="mergeback__$shortBranchName-$date_merge"
@@ -26,9 +28,9 @@ function configureNewBranch()
     echo "finish branching project, pushing to repo"
     git push -u origin $branchReleaseName || error "can't push branch: $branchReleaseName to remote"
     echo "Creating pull request with reviewers:"
-    gh pr create --title $branchReleaseName --body "automatically created because changes detected" --reviewer mrotman-r7 --head $branchReleaseName --base main
-    echo "Creating auto merge for pull request"
-    gh pr merge $branchReleaseName --auto -m
+    gh pr create --title $branchReleaseName --body "automatically created because changes detected" --reviewer mrotman-r7 --head $branchReleaseName --base ENG-108111_automate_mergebacks
+    #echo "Creating auto merge for pull request"
+    #gh pr merge $branchReleaseName --auto -m
     echo "finished creating pull request"
     echo "##########################"
 
